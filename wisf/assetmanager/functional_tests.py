@@ -3,6 +3,7 @@ import unittest
 from decouple import config as cfg
 from time import sleep
 
+
 class NewVisitorTest(unittest.TestCase):
     def setUp(self) -> None:
         self.browser = webdriver.Firefox()
@@ -43,6 +44,33 @@ class NewVisitorTest(unittest.TestCase):
         signup_button = self.browser.find_element_by_id("signup_button")
         sleep(2)
         signup_button.click()
+
+class ExistingUserTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.browser = webdriver.Firefox()
+        return super().setUp()
+
+    def tearDown(self) -> None:
+        return super().tearDown()
+
+    def test_can_log_in(self):
+        # User navigates to the login page
+        self.browser.get("http://localhost:8000/signin/")
+        # User spots the login form
+        self.browser.find_element_by_id("sign_in_form")
+
+        # User fills in the necessary information
+        email = self.browser.find_element_by_id("Email")
+        password = self.browser.find_element_by_id("Password")
+
+        email.send_keys(f"{cfg('TEST_EMAIL')}")
+        sleep(2)
+        password.send_keys(f"{cfg('TEST_PASSWORD')}")
+
+        # User loocates and clicks on the sing in button
+        signin_button = self.browser.find_element_by_id("signin_button")
+        sleep(2)
+        signin_button.click()
 
 
 if __name__ == "__main__":
