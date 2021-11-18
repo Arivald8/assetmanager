@@ -3,3 +3,4 @@ wisf/db.sqlite3
 wisf/assetmanager/geckodriver.log
 venv/
 .git_token.txt.swp
+wisf/.env
