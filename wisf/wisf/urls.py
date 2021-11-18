@@ -5,5 +5,10 @@ from assetmanager import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^$', views.home_page, name="home"),
+    path('', views.home_page, name="home"),
+    path('signin', views.sign_in),
+    path('postsignin/', views.post_sign_in),
+    path('signup/', views.sign_up, name="signup"),
+    path('logout/', views.logout, name="log"),
+    path('postsignup/', views.post_sign_up),
 ]
