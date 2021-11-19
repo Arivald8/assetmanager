@@ -1,4 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
 <h1 id=welcome_message>Welcome to the home page</h1>
+<h2>Request</h2>
+{{ request }}
+<h2>Request</h2>
+<h2>Request.Session</h2>
+{{ request.session }}
+<h2>Request.Session</h2>
+<h3>Request.Session.keys()[uid]</h3>
+{{ request_keys }}
+<form id="go_to_login_form" action="/signin/">
+    <input id="go_to_login_btn" type="submit" value="login">
+</form>
+<form id="logout_form" action="/logout/">
+    <input id="logout_btn" type="submit" value="logout">
+</form>
 {% endblock %}
