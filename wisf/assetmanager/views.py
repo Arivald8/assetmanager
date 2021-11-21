@@ -29,6 +29,21 @@ def home_page(request):
     return render(request, 'index.html')
 
 
+def admin_dashboard(request):
+    claims = auth.verify_id_token(request.session['idToken'])
+    try:
+        if claims['admin'] is True:
+            return render(request, "admins.html")
+        else:
+            return render(request, "index.html", {'unauthorized': "Access Denied"})
+    except KeyError:
+        return render(request, "index.html", {'unauthorized': "Access Denied"})
+
+def post_admin_dashboard(request):
+    validation = Authenticator().add_user_claims(request)
+    return render(validation[0], validation[1])
+
+"""
 def add_admin_claim(request):
     user_id = request.session['uid']
     user_obj = auth.get_user(user_id)
@@ -46,8 +61,9 @@ def add_admin_claim(request):
     print("DEBUG 2 ============================")
     print(user_obj.custom_claims.get('admin'))
 
-
     return render(request, "index.html")
+"""
+
 
 def show_user_claims(request):
     claims = auth.verify_id_token(request.session['idToken'])
