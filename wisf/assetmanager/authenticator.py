@@ -88,6 +88,32 @@ class Authenticator:
                 email=request.POST.get('email'),
                 password=request.POST.get('pass')
             )
+            auth.set_custom_user_claims(user['localId'],
+            {
+                'admin': False,
+                'school_lead': False,
+                'technician': False,
+                'staff': False,
+            })
         except:
             return [request, "registration.html"]
         return [request, "login.html"]
+
+    def user_logout(self, request):
+        try:
+            del request.session['idToken']
+            del request.session['uid']
+        except:
+            print("Error occured when logging out.")
+        return [request, "index.html"]
+
+    def add_user_claims(self, request):
+        try:
+            claims = auth.verify_id_token(request.session['idToken'])
+            print("DEBUGGER @@@@@@@@@@@@@@@@@@@@@@@@@")
+            print(request.POST.get('staff_claim'))
+            print("DEBUGGER END -------------------")
+            # auth.set_custom_user_claims(request.POST.get('username'), )
+        except:
+            pass
+        return [request, "admins.html"]
