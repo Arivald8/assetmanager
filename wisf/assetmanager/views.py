@@ -40,16 +40,14 @@ def post_sign_in(request):
         message = "Invalid Credentials..."
         return render(request, "login.html", {"message": message})
 
-    session_id = user['idToken']
-    request.session['uid'] = str(session_id)
+    request.session['idToken'] = str(user['idToken'])
+    request.session['uid'] = str(user['localId'])
     request_keys = [_ for _ in request.session.items()]
-    #print("DEBUG=====================================")
-    #print(request_keys[3])
     return render(request, "index.html", {"request_keys": request_keys})
 
 def logout(request):
     try:
-        del request.session['uid']
+        del request.session['idToken']
     except:
         pass
     return render(request, "index.html")
@@ -65,8 +63,8 @@ def post_sign_up(request):
         user = auth.create_user(email=email, password=password)
         print("DEBUG USER CREATION---------------------------")
         print(user)
-        #uid = user['localId']
-        #idtoken = request.session['uid']
+        uid = user['localId']
+        user_idtoken = request.session['uid']
         #custom_token = auth.create_custom_token(uid, {"admin": True})
     except:
         return render(request, "registration.html")
@@ -75,3 +73,33 @@ def post_sign_up(request):
 
 def home_page(request):
     return render(request, 'index.html')
+
+
+def add_admin_claim(request):
+    user_id = request.session['uid']
+    user_obj = auth.get_user(user_id)
+    print("DEBUG HERE ============================")
+    print(user_id)
+    print(user_obj)
+    print("DEBUG STOPPPP")
+    auth.set_custom_user_claims(user_id, {'admin': True})
+    claims = auth.verify_id_token(request.session['idToken'])
+    if claims['admin'] is True:
+        print("It works")
+    else:
+        print("IT doesn't work")
+
+    print("DEBUG 2 ============================")
+    print(user_obj.custom_claims.get('admin'))
+
+
+    return render(request, "index.html")
+
+def show_user_claims(request):
+    claims = auth.verify_id_token(request.session['idToken'])
+    if claims['admin'] is True:
+        print("It Works")
+        print(auth.get_user(request.session['uid']).custom_claims.get('admin'))
+    else:
+        print("It sucks")
+    return render(request, "index.html")
