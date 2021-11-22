@@ -109,11 +109,38 @@ class Authenticator:
 
     def add_user_claims(self, request):
         try:
+            user = auth.get_user_by_email(request.POST.get('user_email'))
             claims = auth.verify_id_token(request.session['idToken'])
-            print("DEBUGGER @@@@@@@@@@@@@@@@@@@@@@@@@")
-            print(request.POST.get('staff_claim'))
-            print("DEBUGGER END -------------------")
-            # auth.set_custom_user_claims(request.POST.get('username'), )
-        except:
-            pass
-        return [request, "admins.html"]
+            if claims['admin'] is True:
+
+                if request.POST.get('admin_claim') == 'on':
+                    auth.set_custom_user_claims(
+                        user.uid,
+                        {
+                            'admin': True
+                        }
+                    )
+                if request.POST.get('school_lead_claim') == 'on':
+                    auth.set_custom_user_claims(
+                        user.uid,
+                        {
+                            'school_lead': True
+                        }
+                    )
+                if request.POST.get('technician_claim') == 'on':
+                    auth.set_custom_user_claims(
+                        user.uid,
+                        {
+                            'technician': True
+                        }
+                    )
+                if request.POST.get('staff_claim') == 'on':
+                    auth.set_custom_user_claims(
+                        user.uid,
+                        {
+                            'staff': True
+                        }
+                    )
+        except Exception as e:
+            return [request, "admins.html", {'e': e}]
+        return [request, "admins.html", {'Success': 'Claims added successfully!'}]
