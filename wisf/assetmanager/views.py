@@ -21,7 +21,7 @@ def sign_up(request):
     return render(request, "registration.html")
 
 def post_sign_up(request):
-    validation = Authenticator().user_sign_up(request)
+    validation = Authenticator().user_sign_up(request)  
     return render(validation[0], validation[1])
 
 
@@ -30,7 +30,10 @@ def home_page(request):
 
 
 def admin_dashboard(request):
-    claims = auth.verify_id_token(request.session['idToken'])
+    try:
+        claims = auth.verify_id_token(request.session['idToken'])
+    except:
+        return render(request, "index.html", {'unauthorized': "Access Denied"})
     try:
         if claims['admin'] is True:
             return render(request, "admins.html")
@@ -41,7 +44,7 @@ def admin_dashboard(request):
 
 def post_admin_dashboard(request):
     validation = Authenticator().add_user_claims(request)
-    return render(validation[0], validation[1])
+    return render(validation[0], validation[1], validation[2])
 
 """
 def add_admin_claim(request):
@@ -71,6 +74,7 @@ def show_user_claims(request):
         if claims['admin'] is True:
             print("User is an admin")
             print(auth.get_user(request.session['uid']).custom_claims.get('admin'))
+            print(request.session['uid'])
         else:
             print("Not an admin")
     except KeyError:
