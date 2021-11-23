@@ -8,10 +8,10 @@ import pyrebase
 class Authenticator:
     """
     Authenticator:
-        Used to create authenticator objects which take care of 
+        Takes care of 
         Django to Firebase authentication of users.
 
-        Objects of Authenticator can be used to:
+        Authenticator can be used to:
             * Check user claims
             * Allow access to any given resource
             * Deny access to any given resource
@@ -68,6 +68,9 @@ class Authenticator:
             refreshToken: {self.user_obj['refreshToken']}\n
             expiredIn: {self.user_obj['expiresIn']}
         """)
+
+    def access_denied(self):
+        return ["index.html", {"unauthorized": "Access Denied"}]
 
 
     def user_sign_in(self, request):

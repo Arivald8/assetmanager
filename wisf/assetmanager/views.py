@@ -1,9 +1,11 @@
 from django.shortcuts import render
-from decouple import config as cfg
+from django.core.paginator import Paginator
 
 from firebase_admin import auth
+from decouple import config as cfg
 
 from assetmanager.authenticator import Authenticator
+import assetmanager.models as models
 
 
 def sign_in(request):
@@ -33,14 +35,14 @@ def admin_dashboard(request):
     try:
         claims = auth.verify_id_token(request.session['idToken'])
     except:
-        return render(request, "index.html", {'unauthorized': "Access Denied"})
+        return render(request, *[_ for _ in Authenticator().access_denied()])
     try:
         if claims['admin'] is True:
             return render(request, "admins.html")
         else:
-            return render(request, "index.html", {'unauthorized': "Access Denied"})
+            return render(request, *[_ for _ in Authenticator().access_denied()])
     except KeyError:
-        return render(request, "index.html", {'unauthorized': "Access Denied"})
+        return render(request, *[_ for _ in Authenticator().access_denied()])
 
 def post_admin_dashboard(request):
     validation = Authenticator().add_user_claims(request)
@@ -48,7 +50,10 @@ def post_admin_dashboard(request):
 
 
 def show_user_claims(request):
-    claims = auth.verify_id_token(request.session['idToken'])
+    try:
+        claims = auth.verify_id_token(request.session['idToken'])
+    except:
+        return render(_ for _ in Authenticator().access_denied())
     try:
         if claims['admin'] is True:
             print(auth.get_user(request.session['uid']).custom_claims.get('admin'))
@@ -60,15 +65,24 @@ def show_user_claims(request):
     return render(request, "index.html")
 
 def asset_manager(request):
-    claims = auth.verify_id_token(request.session['idToken'])
+    try:
+        claims = auth.verify_id_token(request.session['idToken'])
+    except:
+        return render(request, *[_ for _ in Authenticator().access_denied()])
     try:
         if claims['admin'] is True:
-            # allow in
+            all_assets = models.Asset.objects.all()
+            paginator = Paginator(all_assets, 20)
 
-            pass
+            page_number = request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            return render(request, 'asset_manager.html', {'page_obj': page_obj})
         else:
-            return render(request, "index.html", {'unauthorized': "Access Denied"})
-    except:
-        return render(request, "index.html", {'unauthorized': "Access Denied"})
+            print("else dont work")
+            return render(request, *[_ for _ in Authenticator().access_denied()])
+    except Exception as e:
+        print("except dont work")
+        print(e)
+        return render(request, *[_ for _ in Authenticator().access_denied()])
 
         

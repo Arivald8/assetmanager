@@ -7,4 +7,7 @@ wisf/.env
 asset-manager-auth-firebase-adminsdk-c9b5k-e667f935ea.json
 git_token.txt
 google_auth
-
+wisf/assetmanager/migrations/
+wisf/wisf/__pycache__/
+wisf/assetmanager/__pycache__/
+wisf/assetmanager/__pycache__/authenticator.cpython-38.pyc
