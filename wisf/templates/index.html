@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 id=welcome_message>Welcome to the home page</h1>
+
+{% if unauthorized %}
+<script>
+	alert('{{ unauthorized }}');
+</script>
+{% endif %}
+
 <h2>Request</h2>
 {{ request }}
 <h2>Request</h2>

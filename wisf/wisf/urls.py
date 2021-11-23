@@ -11,4 +11,9 @@ urlpatterns = [
     path('signup/', views.sign_up, name="signup"),
     path('logout/', views.logout, name="log"),
     path('postsignup/', views.post_sign_up),
+    #path('customclaim/', views.add_admin_claim),
+    path('showclaims/', views.show_user_claims),
+    path('admindash/', views.admin_dashboard),
+    path('addclaims/', views.post_admin_dashboard),
+    path('manager/', views.asset_manager),
 ]
