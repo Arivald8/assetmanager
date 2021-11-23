@@ -51,7 +51,6 @@ def show_user_claims(request):
     claims = auth.verify_id_token(request.session['idToken'])
     try:
         if claims['admin'] is True:
-            print("User is an admin")
             print(auth.get_user(request.session['uid']).custom_claims.get('admin'))
             print(request.session['uid'])
         else:
@@ -59,3 +58,17 @@ def show_user_claims(request):
     except KeyError:
         print("Not an admin")
     return render(request, "index.html")
+
+def asset_manager(request):
+    claims = auth.verify_id_token(request.session['idToken'])
+    try:
+        if claims['admin'] is True:
+            # allow in
+
+            pass
+        else:
+            return render(request, "index.html", {'unauthorized': "Access Denied"})
+    except:
+        return render(request, "index.html", {'unauthorized': "Access Denied"})
+
+        

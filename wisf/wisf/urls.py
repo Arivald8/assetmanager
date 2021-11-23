@@ -15,4 +15,5 @@ urlpatterns = [
     path('showclaims/', views.show_user_claims),
     path('admindash/', views.admin_dashboard),
     path('addclaims/', views.post_admin_dashboard),
+    path('manager/', views.asset_manager),
 ]
