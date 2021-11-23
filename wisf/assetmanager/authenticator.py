@@ -69,8 +69,95 @@ class Authenticator:
             expiredIn: {self.user_obj['expiresIn']}
         """)
 
+
     def access_denied(self):
         return ["index.html", {"unauthorized": "Access Denied"}]
+
+
+    def is_admin(self, request):
+        try:
+            claims = auth.verify_id_token(request.session['idToken'])
+            try:
+                if claims['admin'] is True:
+                    return True
+                else:
+                    return False
+            except:
+                return False
+        except:
+            return False
+
+
+    def is_school_lead(self, request):
+        try:
+            claims = auth.verify_id_token(request.session['idToken'])
+            try:
+                if claims['school_lead'] is True:
+                    return True
+                else:
+                    return False
+            except:
+                return False
+        except:
+            return False
+
+
+    def is_technician(self, request):
+        try:
+            claims = auth.verify_id_token(request.session['idToken'])
+            try:
+                if claims['technician'] is True:
+                    return True
+                else:
+                    return False
+            except:
+                return False
+        except:
+            return False
+
+
+    def is_staff(self, request):
+        try:
+            claims = auth.verify_id_token(request.session['idToken'])
+            try:
+                if claims['staff'] is True:
+                    return True
+                else:
+                    return False
+            except:
+                return False
+        except:
+            return False
+
+    
+    def user_permissions_generic_elevated(self, request):
+        """ 
+        Returns a list of generic elevated permissions.
+
+        This method can be used to check whether a user has generic
+        elevated permissions, ie. user is not just a staff member.
+        """
+        return [
+            self.is_admin(request),
+            self.is_school_lead(request),
+            self.is_technician(request),
+        ]
+
+    
+    def user_permissions_specific(self, request):
+        """
+        Returns a dictionary of user permissions,
+        specifying all roles.
+
+        This method can be used to check if a user
+        has any of the specific permissions.
+        """
+        return {
+            "admin": self.is_admin(request),
+            "school_lead": self.is_school_lead(request),
+            "technician": self.is_technician(request),
+            "staff": self.is_staff(request)
+        }
 
 
     def user_sign_in(self, request):

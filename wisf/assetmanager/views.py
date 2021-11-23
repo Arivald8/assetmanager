@@ -32,17 +32,11 @@ def home_page(request):
 
 
 def admin_dashboard(request):
-    try:
-        claims = auth.verify_id_token(request.session['idToken'])
-    except:
+    if Authenticator().is_admin(request):
+        return render(request, "admins.html")
+    else:
         return render(request, *[_ for _ in Authenticator().access_denied()])
-    try:
-        if claims['admin'] is True:
-            return render(request, "admins.html")
-        else:
-            return render(request, *[_ for _ in Authenticator().access_denied()])
-    except KeyError:
-        return render(request, *[_ for _ in Authenticator().access_denied()])
+
 
 def post_admin_dashboard(request):
     validation = Authenticator().add_user_claims(request)
@@ -64,25 +58,17 @@ def show_user_claims(request):
         print("Not an admin")
     return render(request, "index.html")
 
-def asset_manager(request):
-    try:
-        claims = auth.verify_id_token(request.session['idToken'])
-    except:
-        return render(request, *[_ for _ in Authenticator().access_denied()])
-    try:
-        if claims['admin'] is True:
-            all_assets = models.Asset.objects.all()
-            paginator = Paginator(all_assets, 20)
 
-            page_number = request.GET.get('page')
-            page_obj = paginator.get_page(page_number)
-            return render(request, 'asset_manager.html', {'page_obj': page_obj})
-        else:
-            print("else dont work")
-            return render(request, *[_ for _ in Authenticator().access_denied()])
-    except Exception as e:
-        print("except dont work")
-        print(e)
+def asset_manager(request):
+    user_claims = Authenticator().user_permissions_generic_elevated(request)
+    if True in user_claims:
+        all_assets = models.Asset.objects.all()
+        paginator = Paginator(all_assets, 20)
+
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return render(request, 'asset_manager.html', {'page_obj': page_obj})
+    else:
         return render(request, *[_ for _ in Authenticator().access_denied()])
 
         
