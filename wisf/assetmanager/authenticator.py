@@ -56,6 +56,7 @@ class Authenticator:
         else:
             return str(f"Authenticator objects contains an unregistered user.")
 
+
     def __repr__(self):
         return str(f"""
             Authenticator contains:\n
@@ -67,6 +68,7 @@ class Authenticator:
             refreshToken: {self.user_obj['refreshToken']}\n
             expiredIn: {self.user_obj['expiresIn']}
         """)
+
 
     def user_sign_in(self, request):
         try:
@@ -99,6 +101,7 @@ class Authenticator:
             return [request, "registration.html"]
         return [request, "login.html"]
 
+
     def user_logout(self, request):
         try:
             del request.session['idToken']
@@ -106,6 +109,7 @@ class Authenticator:
         except:
             print("Error occured when logging out.")
         return [request, "index.html"]
+
 
     def add_user_claims(self, request):
         try:

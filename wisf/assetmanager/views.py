@@ -46,27 +46,6 @@ def post_admin_dashboard(request):
     validation = Authenticator().add_user_claims(request)
     return render(validation[0], validation[1], validation[2])
 
-"""
-def add_admin_claim(request):
-    user_id = request.session['uid']
-    user_obj = auth.get_user(user_id)
-    print("DEBUG HERE ============================")
-    print(user_id)
-    print(user_obj)
-    print("DEBUG STOPPPP")
-    auth.set_custom_user_claims(user_id, {'admin': True})
-    claims = auth.verify_id_token(request.session['idToken'])
-    if claims['admin'] is True:
-        print("It works")
-    else:
-        print("IT doesn't work")
-
-    print("DEBUG 2 ============================")
-    print(user_obj.custom_claims.get('admin'))
-
-    return render(request, "index.html")
-"""
-
 
 def show_user_claims(request):
     claims = auth.verify_id_token(request.session['idToken'])
