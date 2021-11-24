@@ -45,6 +45,9 @@ def admin_dashboard_add_claims(request):
         return render(request, *[_ for _ in Authenticator().access_denied()])
 
 
+def check_user_claims(request):
+    Authenticator().check_user_claims(request)
+
 
 def show_user_claims(request):
     try:
