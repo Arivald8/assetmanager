@@ -14,6 +14,6 @@ urlpatterns = [
     #path('customclaim/', views.add_admin_claim),
     path('showclaims/', views.show_user_claims),
     path('admindash/', views.admin_dashboard),
-    path('addclaims/', views.post_admin_dashboard),
+    path('addclaims/', views.admin_dashboard_add_claims),
     path('manager/', views.asset_manager),
 ]

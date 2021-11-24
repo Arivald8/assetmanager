@@ -8,10 +8,10 @@ import pyrebase
 class Authenticator:
     """
     Authenticator:
-        Used to create authenticator objects which take care of 
+        Takes care of 
         Django to Firebase authentication of users.
 
-        Objects of Authenticator can be used to:
+        Authenticator can be used to:
             * Check user claims
             * Allow access to any given resource
             * Deny access to any given resource
@@ -51,23 +51,119 @@ class Authenticator:
 
 
     def __str__(self):
-        if self.user_obj['registered'] != '':
-            return str(f"Authenticator contains:{self.user_obj['email']}")
+        if self.user_obj is not None:
+            if self.user_obj['registered'] != '':
+                return str(f"Authenticator contains:{self.user_obj['email']}")
+            else:
+                return str(f"Authenticator object contains an unregistered user.")
         else:
-            return str(f"Authenticator objects contains an unregistered user.")
+            return str(self.user_obj)
 
 
     def __repr__(self):
-        return str(f"""
-            Authenticator contains:\n
-            localId: {self.user_obj['localId']}\n
-            email: {self.user_obj['email']}\n
-            displayName: {self.user_obj['displayName']}\n
-            idToken: {self.user_obj['idToken']}\n
-            registered: {self.user_obj['registered']}\n
-            refreshToken: {self.user_obj['refreshToken']}\n
-            expiredIn: {self.user_obj['expiresIn']}
-        """)
+        if self.user_obj is not None:
+            return str(f"""
+                Authenticator contains:\n
+                localId: {self.user_obj['localId']}\n
+                email: {self.user_obj['email']}\n
+                displayName: {self.user_obj['displayName']}\n
+                idToken: {self.user_obj['idToken']}\n
+                registered: {self.user_obj['registered']}\n
+                refreshToken: {self.user_obj['refreshToken']}\n
+                expiredIn: {self.user_obj['expiresIn']}
+            """)
+        else:
+            return str(f"Authenticator object contains an unregistered user.")
+
+
+    def access_denied(self):
+        return ["index.html", {"unauthorized": "Access Denied"}]
+
+
+    def is_admin(self, request):
+        try:
+            claims = auth.verify_id_token(request.session['idToken'])
+            try:
+                if claims['admin'] is True:
+                    return True
+                else:
+                    return False
+            except:
+                return False
+        except:
+            return False
+
+
+    def is_school_lead(self, request):
+        try:
+            claims = auth.verify_id_token(request.session['idToken'])
+            try:
+                if claims['school_lead'] is True:
+                    return True
+                else:
+                    return False
+            except:
+                return False
+        except:
+            return False
+
+
+    def is_technician(self, request):
+        try:
+            claims = auth.verify_id_token(request.session['idToken'])
+            try:
+                if claims['technician'] is True:
+                    return True
+                else:
+                    return False
+            except:
+                return False
+        except:
+            return False
+
+
+    def is_staff(self, request):
+        try:
+            claims = auth.verify_id_token(request.session['idToken'])
+            try:
+                if claims['staff'] is True:
+                    return True
+                else:
+                    return False
+            except:
+                return False
+        except:
+            return False
+
+    
+    def user_permissions_generic_elevated(self, request):
+        """ 
+        Returns a list of generic elevated permissions.
+
+        This method can be used to check whether a user has generic
+        elevated permissions, ie. user is not just a staff member.
+        """
+        return [
+            self.is_admin(request),
+            self.is_school_lead(request),
+            self.is_technician(request),
+        ]
+
+    
+    def user_permissions_specific(self, request):
+        """
+        Returns a dictionary of user permissions,
+        specifying all roles.
+
+        This method can be used to check if a user
+        has any of the specific permissions.
+        """
+        return {
+            "admin": self.is_admin(request),
+            "school_lead": self.is_school_lead(request),
+            "technician": self.is_technician(request),
+            "staff": self.is_staff(request)
+        }
 
 
     def user_sign_in(self, request):

@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from decouple import config as cfg
 
 from firebase_admin import auth
+from decouple import config as cfg
 
 from assetmanager.authenticator import Authenticator
+from assetmanager.devicedbmanager import DeviceDBManager
 
 
 def sign_in(request):
@@ -30,25 +31,26 @@ def home_page(request):
 
 
 def admin_dashboard(request):
-    try:
-        claims = auth.verify_id_token(request.session['idToken'])
-    except:
-        return render(request, "index.html", {'unauthorized': "Access Denied"})
-    try:
-        if claims['admin'] is True:
-            return render(request, "admins.html")
-        else:
-            return render(request, "index.html", {'unauthorized': "Access Denied"})
-    except KeyError:
-        return render(request, "index.html", {'unauthorized': "Access Denied"})
+    if Authenticator().is_admin(request):
+        return render(request, "admins.html")
+    else:
+        return render(request, *[_ for _ in Authenticator().access_denied()])
 
-def post_admin_dashboard(request):
-    validation = Authenticator().add_user_claims(request)
-    return render(validation[0], validation[1], validation[2])
+
+def admin_dashboard_add_claims(request):
+    if Authenticator().is_admin(request):
+        validation = Authenticator().add_user_claims(request)
+        return render(validation[0], validation[1], validation[2])
+    else:
+        return render(request, *[_ for _ in Authenticator().access_denied()])
+
 
 
 def show_user_claims(request):
-    claims = auth.verify_id_token(request.session['idToken'])
+    try:
+        claims = auth.verify_id_token(request.session['idToken'])
+    except:
+        return render(_ for _ in Authenticator().access_denied())
     try:
         if claims['admin'] is True:
             print(auth.get_user(request.session['uid']).custom_claims.get('admin'))
@@ -59,16 +61,21 @@ def show_user_claims(request):
         print("Not an admin")
     return render(request, "index.html")
 
-def asset_manager(request):
-    claims = auth.verify_id_token(request.session['idToken'])
-    try:
-        if claims['admin'] is True:
-            # allow in
 
-            pass
-        else:
-            return render(request, "index.html", {'unauthorized': "Access Denied"})
-    except:
-        return render(request, "index.html", {'unauthorized': "Access Denied"})
+def asset_manager(request):
+    user_claims = Authenticator().user_permissions_generic_elevated(request)
+    if True in user_claims:
+        return render(*DeviceDBManager().view_assets(request))
+    else:
+        return render(request, *[_ for _ in Authenticator().access_denied()])
+
+def asset_manager_add_asset(request):
+    user_claims = Authenticator().user_permissions_generic_elevated(request)
+    if True in user_claims:
+        DeviceDBManager().add_asset(request)
+    else:
+        return render(request, *[_ for _ in Authenticator().access_denied()])
+        
+
 
         
