@@ -38,26 +38,21 @@ class AuthenticatorTest(TestCase):
         middleware.process_request(request)
         request.session.save()
         
-        sign_in_request = Authenticator().user_sign_in(request)
-        self.assertTrue(sign_in_request[2]['request_keys'])
+        Authenticator().user_sign_in(request)
+        self.assertTrue(request.session['idToken'])
 
     
     def test_if_user_has_admin_claims(self):
-        request = self.factory.get('addclaims/')
+        request = self.factory.post('admindash/', {'email': cfg('TEST_EMAIL'), 'pass': cfg('TEST_PASSWORD')})
         middleware = SessionMiddleware()
         middleware.process_request(request)
         request.session.save()
-        request.session['idToken'] = self.user['idToken']
 
-        claims = fb_auth.verify_id_token(request.session['idToken'])
-        print(claims['admin'])
+        Authenticator().user_sign_in(request)
 
+        fb_auth.verify_id_token(request.session['idToken'])
         # User with admin claims
         self.assertTrue(Authenticator().is_admin(request))
 
-        request.session['idToken'] = "None"
-
-        # Anonymous user with no claims
-        self.assertFalse(Authenticator().is_admin(request))
         
 
