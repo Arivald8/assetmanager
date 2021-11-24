@@ -16,7 +16,7 @@ class DeviceDBManager:
         ]
 
     def add_asset(self, request):
-        models.Asset(
+        models.Asset.objects.create(
             device_pk = request.POST.get("device_pk"),
             device_name = request.POST.get('device_name'),
             device_type = request.POST.get('device_asset'),
@@ -27,7 +27,7 @@ class DeviceDBManager:
             device_mac = request.POST.get('device_mac'),
             device_school = request.POST.get('device_school'),
             device_notes = request.POST.get('device_notes')
-        ).save()
+        )
 
     
     def add_asset_form_data(self, request):

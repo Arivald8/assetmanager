@@ -51,23 +51,29 @@ class Authenticator:
 
 
     def __str__(self):
-        if self.user_obj['registered'] != '':
-            return str(f"Authenticator contains:{self.user_obj['email']}")
+        if self.user_obj is not None:
+            if self.user_obj['registered'] != '':
+                return str(f"Authenticator contains:{self.user_obj['email']}")
+            else:
+                return str(f"Authenticator object contains an unregistered user.")
         else:
-            return str(f"Authenticator objects contains an unregistered user.")
+            return str(self.user_obj)
 
 
     def __repr__(self):
-        return str(f"""
-            Authenticator contains:\n
-            localId: {self.user_obj['localId']}\n
-            email: {self.user_obj['email']}\n
-            displayName: {self.user_obj['displayName']}\n
-            idToken: {self.user_obj['idToken']}\n
-            registered: {self.user_obj['registered']}\n
-            refreshToken: {self.user_obj['refreshToken']}\n
-            expiredIn: {self.user_obj['expiresIn']}
-        """)
+        if self.user_obj is not None:
+            return str(f"""
+                Authenticator contains:\n
+                localId: {self.user_obj['localId']}\n
+                email: {self.user_obj['email']}\n
+                displayName: {self.user_obj['displayName']}\n
+                idToken: {self.user_obj['idToken']}\n
+                registered: {self.user_obj['registered']}\n
+                refreshToken: {self.user_obj['refreshToken']}\n
+                expiredIn: {self.user_obj['expiresIn']}
+            """)
+        else:
+            return str(f"Authenticator object contains an unregistered user.")
 
 
     def access_denied(self):
