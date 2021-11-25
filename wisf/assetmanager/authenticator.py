@@ -206,41 +206,40 @@ class Authenticator:
             print("Error occured when logging out.")
         return [request, "index.html"]
 
+    
+    def return_user_claims(self, user_email):
+        return auth.get_user_by_email(user_email).custom_claims
+
+
+
+    def check_user_claims(self, request):
+        try:
+            claims = auth.verify_id_token(request.session['idToken'])
+            print(claims)
+        except Exception as e:
+            print(e)
+            pass
+
 
     def add_user_claims(self, request):
         try:
             user = auth.get_user_by_email(request.POST.get('user_email'))
-            claims = auth.verify_id_token(request.session['idToken'])
-            if claims['admin'] is True:
+            user_claims = user.custom_claims
 
-                if request.POST.get('admin_claim') == 'on':
-                    auth.set_custom_user_claims(
-                        user.uid,
-                        {
-                            'admin': True
-                        }
-                    )
-                if request.POST.get('school_lead_claim') == 'on':
-                    auth.set_custom_user_claims(
-                        user.uid,
-                        {
-                            'school_lead': True
-                        }
-                    )
-                if request.POST.get('technician_claim') == 'on':
-                    auth.set_custom_user_claims(
-                        user.uid,
-                        {
-                            'technician': True
-                        }
-                    )
-                if request.POST.get('staff_claim') == 'on':
-                    auth.set_custom_user_claims(
-                        user.uid,
-                        {
-                            'staff': True
-                        }
-                    )
+            if request.POST.get('admin_claim') == 'on':
+                user_claims.update({'admin': True})
+
+            if request.POST.get('school_lead_claim') == 'on':
+                user_claims.update({'school_lead': True})
+
+
+            if request.POST.get('technician_claim') == 'on':
+                user_claims.update({'technician': True})
+
+            if request.POST.get('staff_claim') == 'on':
+                user_claims.update({'staff': True})
+
+            auth.set_custom_user_claims(user.uid, user_claims)
         except Exception as e:
             return [request, "admins.html", {'e': e}]
         return [request, "admins.html", {'Success': 'Claims added successfully!'}]
