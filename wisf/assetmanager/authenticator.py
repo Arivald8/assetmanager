@@ -138,7 +138,7 @@ class Authenticator:
     
     def user_permissions_generic_elevated(self, request):
         """ 
-        Returns a list of generic elevated permissions.
+        Returns a list of generic elevated permissions of the user.
 
         This method can be used to check whether a user has generic
         elevated permissions, ie. user is not just a staff member.
