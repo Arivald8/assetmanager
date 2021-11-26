@@ -3,11 +3,20 @@
 
 {% block content %}
 
+{% if message %}
+<script>
+	alert('{{ message }}');
+</script>
+{% endif %}
+
 <h1>Manager</h1>
 
-{% for asset in page_obj %}
-    {{ asset.device_name|upper}}<br>
-{% endfor %}
+<div class="asset_display">
+    {% for asset in page_obj %}
+        {{ asset.device_name|upper}}<br>
+    {% endfor %}
+</div>
+
 
 <div class="pagination">
     <span class="step-links">
@@ -25,6 +34,33 @@
             <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
+</div>
+
+<div class="add_asset_div">
+    <form action="/postasset/" method="post" id="add_asset_form">
+        {% csrf_token %}
+        <label for="device_name">Device Name</label>
+	    <input type="text" id="device_name" name="device_name" placeholder="Device Name"><br><br>
+        <label for="device_type">Device Type</label>
+	    <input type="text" id="device_type" name="device_type" placeholder="Device Type"><br><br>
+        <label for="device_asset">Device Asset</label>
+	    <input type="text" id="device_asset" name="device_asset" placeholder="Device Asset"><br><br>
+        <label for="device_serial">Device Serial</label>
+	    <input type="text" id="device_serial" name="device_serial" placeholder="Device Serial"><br><br>
+        <label for="device_model">Device Model</label>
+	    <input type="text" id="device_model" name="device_model" placeholder="Device Model"><br><br>
+        <label for="device_model">Device Location</label>
+	    <input type="text" id="device_location" name="device_location" placeholder="Device Location"><br><br>
+        <label for="device_ip">Device IP Address</label>
+	    <input type="text" id="device_ip" name="device_ip" placeholder="Device IP"><br><br>
+        <label for="device_mc">Device MAC Address</label>
+	    <input type="text" id="device_mac" name="device_mac" placeholder="Device MAC"><br><br>
+        <label for="device_school">Device School</label>
+	    <input type="text" id="device_school" name="device_school" placeholder="WISF"><br><br>
+        <label for="device_notes">Device Notes</label>
+	    <input type="text" id="device_notes" name="device_notes" placeholder="Device Notes"><br><br>
+        <input id="submit_add_device" type="submit" value="Submit"><br><br>
+    </form>
 </div>
 
 {% endblock %}
