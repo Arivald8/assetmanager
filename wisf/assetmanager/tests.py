@@ -86,7 +86,8 @@ class AuthenticatorTest(TestCase):
             return ''.join(random.choice(string.ascii_letters) for _ in range(8))
 
         signup_request = self.factory.post('signup/', {
-            f"{random_email()}@testmail.com", cfg('TEST_PASSWORD')
+            "email": f"{random_email()}@testmail.com",
+            "pass": cfg('TEST_PASSWORD')
         })
         self.middleware.process_request(signup_request)
         signup_request.session.save()
@@ -97,6 +98,25 @@ class AuthenticatorTest(TestCase):
             "technician": False,
             "staff": False
         }, Authenticator().user_permissions_specific(signup_request))
+
+    
+    def test_user_logout(self):
+        self.request = Authenticator().user_sign_in(self.request)[0]
+        self.assertNotIn('idToken', Authenticator().user_logout(self.request)[0].session)
+
+
+    def test_adding_user_claims(self):
+        claim_request = self.factory.post('signup/', {
+            "admin_claim": "on",
+            "school_lead_claim": "on",
+            "technician_claim": "on",
+            "staff_claim": "on",
+            "user_email": cfg('TEST_EMAIL')
+        })
+        self.assertEqual(
+            Authenticator().add_user_claims(claim_request)[2]['Success'],
+            'Claims added successfully!'
+        )
 
 
 
