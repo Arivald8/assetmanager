@@ -73,9 +73,8 @@ def asset_manager(request):
         return render(request, *[_ for _ in Authenticator().access_denied()])
 
 def asset_manager_add_asset(request):
-    user_claims = Authenticator().user_permissions_generic_elevated(request)
-    if True in user_claims:
-        DeviceDBManager().add_asset(request)
+    if True in Authenticator().user_permissions_generic_elevated(request):
+        return render(*DeviceDBManager().add_asset(request))
     else:
         return render(request, *[_ for _ in Authenticator().access_denied()])
         

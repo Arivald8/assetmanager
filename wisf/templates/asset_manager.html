@@ -3,6 +3,12 @@
 
 {% block content %}
 
+{% if message %}
+<script>
+	alert('{{ message }}');
+</script>
+{% endif %}
+
 <h1>Manager</h1>
 
 <div class="asset_display">
@@ -53,6 +59,7 @@
 	    <input type="text" id="device_school" name="device_school" placeholder="WISF"><br><br>
         <label for="device_notes">Device Notes</label>
 	    <input type="text" id="device_notes" name="device_notes" placeholder="Device Notes"><br><br>
+        <input id="submit_add_device" type="submit" value="Submit"><br><br>
     </form>
 </div>
 
