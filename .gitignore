@@ -11,3 +11,26 @@ wisf/assetmanager/migrations/
 wisf/wisf/__pycache__/
 wisf/assetmanager/__pycache__/
 wisf/assetmanager/__pycache__/authenticator.cpython-38.pyc
+
+# dependencies
+wisf/front/my_app/node_modules
+wisf/front/my_app/.pnp
+wisf/front/my_app/.pnp.js
+
+# testing
+wisf/front/my_app//coverage
+
+# production
+wisf/front/my_app/build
+
+# misc
+wisf/front/my_app/.DS_Store
+wisf/front/my_app/.env.local
+wisf/front/my_app/.env.development.local
+wisf/front/my_app/.env.test.local
+wisf/front/my_app/.env.production.local
+
+wisf/front/my_app/npm-debug.log*
+wisf/front/my_app/yarn-debug.log*
+wisf/front/my_app/yarn-error.log*
+
