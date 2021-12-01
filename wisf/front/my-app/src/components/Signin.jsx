@@ -1,6 +1,24 @@
 import "./Signin.css";
 
 export default function Signin(props){
+    function getCookie(name){
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== ''){
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++){
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')){
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
     let handleSubmit = (e) => {
         e.preventDefault();
         let credentials = {
@@ -11,15 +29,19 @@ export default function Signin(props){
     }
 
     let sendSubmit = (cred) => {
-        const requestOptions = {
+        const request = new Request(
+            'http://127.0.0.1:8000/postsignin/',
+            {
+                headers: {'X-CSRFToken': csrftoken},
+            }
+        );
+        fetch(request, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(cred)
-        };
-
-        fetch('http://127.0.0.1:8000/postsignin/', requestOptions)
-            .then(response => response.json())
-            .then(data => console.log(data))
+            mode: 'same-origin' // Do not send CSRF token to another domain.
+        }).then(function(response){
+            console.log("DEBUG")
+            console.log(response)
+        })
 
     }
 
