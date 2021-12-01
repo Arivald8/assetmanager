@@ -1,0 +1,50 @@
+.top-nav-div{
+    display: inline-flex;
+    width: 100%;
+    height: 5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-nav{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-nav{
+    display: flex;
+    width: 100%;
+    height: 100%;    
+}
+
+.right-nav{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.left-nav-logo-div{
+    display: flex;
+    width: 3em;
+    height: 3rem;
+    padding: 1em;
+}
+
+.nav-logo-img{
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.nav-link{
+    display: flex;
+    width: 30%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
