@@ -30,15 +30,14 @@ export default function Signin(props){
 
     let sendSubmit = (cred) => {
         const request = new Request(
-            'http://127.0.0.1:8000/postsignin/',
+            'http://127.0.0.1:8000/signin/',
             {
                 headers: {'X-CSRFToken': csrftoken},
+                method: 'POST',
+                mode: 'cors' // Do not send CSRF token to another domain.
             }
         );
-        fetch(request, {
-            method: 'POST',
-            mode: 'same-origin' // Do not send CSRF token to another domain.
-        }).then(function(response){
+        fetch(request).then(function(response){
             console.log("DEBUG")
             console.log(response)
         })
