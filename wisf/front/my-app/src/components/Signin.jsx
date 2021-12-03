@@ -22,21 +22,12 @@ export default function Signin(props){
     let handleSubmit = (e) => {
         e.preventDefault();
         let formData = new FormData();
-        formData.append(e.target.email.value, e.target.password.value)
-        let credentials = {
-            "email": e.target.email.value,
-            "password": e.target.password.value
-        }
-        console.log("DEBUG===========")
-        console.log(credentials['email'])
+        formData.append('email', e.target.email.value)
+        formData.append('pass', e.target.password.value)
         sendSubmit(formData)
     }
 
     let sendSubmit = (cred) => {
-        console.log("sendSubmit herere")
-        for (let pair of cred.entries()){
-            console.log(pair[0]+ ', '+ pair[1]);
-        }
         const request = new Request(
             'http://127.0.0.1:8000/postsignin/',
             {
@@ -44,14 +35,11 @@ export default function Signin(props){
                 method: 'POST',
                 mode: 'cors',
                 credentials: 'include',
-                body: 'hello world'
+                body: cred
             }
         );
-        console.log("after request was made")
-        console.log(request)
-        console.log(request.body)
+
         fetch(request).then(function(response){
-            console.log("DEBUG")
             console.log(response)
         })
 
