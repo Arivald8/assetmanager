@@ -172,11 +172,14 @@ class Authenticator:
                 request.POST.get('email'), 
                 request.POST.get('pass')
             )
+            print("posted?")
             pass
         except:
+            print("excepted?")
             return [request, "login.html", {"message": "Invalid Credentials..."}]
         request.session['idToken'] = str(user['idToken'])
         request.session['uid'] = str(user['localId'])
+        print("sessions set?")
         return [request, "index.html", {"request_keys": [_ for _ in request.session.items()]}]
 
 

@@ -11,6 +11,8 @@ def sign_in(request):
     return render(request, "login.html")
 
 def post_sign_in(request):
+    print("Be here?")
+    print(request.POST)
     validation = Authenticator().user_sign_in(request=request)
     return render(validation[0], validation[1], validation[2])
 
