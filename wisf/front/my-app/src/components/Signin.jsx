@@ -40,8 +40,12 @@ export default function Signin(props){
         );
 
         fetch(request).then(function(response){
-            console.log(response)
-        })
+            return response.text();
+        }).then(function(data){
+            console.log("HERE")
+            console.log(data);
+            console.log("HEREEE")
+        });
 
     }
 

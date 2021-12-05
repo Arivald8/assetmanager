@@ -1,3 +1,5 @@
+from django.http import JsonResponse
+
 from decouple import config as cfg
 
 import firebase_admin
@@ -167,6 +169,9 @@ class Authenticator:
 
 
     def user_sign_in(self, request):
+        print("COOKIES +===============================")
+        print(request.COOKIES)
+        print("COOKIES +===============================")
         try:
             user = self.authe.sign_in_with_email_and_password(
                 request.POST.get('email'), 
@@ -177,8 +182,13 @@ class Authenticator:
             return [request, "login.html", {"message": "Invalid Credentials..."}]
         request.session['idToken'] = str(user['idToken'])
         request.session['uid'] = str(user['localId'])
-        return [request, "index.html", {"request_keys": [_ for _ in request.session.items()]}]
-
+        print(request.session['idToken'])
+        print(request.session['uid'])
+        #return [request, "index.html", {"request_keys": [_ for _ in request.session.items()]}]
+        return JsonResponse({
+            'idToken':request.session['idToken'],
+            'uid':request.session['uid']
+        })
 
     def user_sign_up(self, request):
         try:
