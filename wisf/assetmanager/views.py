@@ -12,10 +12,7 @@ def sign_in(request):
 
 def post_sign_in(request):
     validation = Authenticator().user_sign_in(request=request)
-    print("validation")
-    print(validation[0])
-    print("validation")
-    return render(validation[0], validation[1], validation[2])
+    return validation
 
 def logout(request):
     validation = Authenticator().user_logout(request)

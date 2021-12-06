@@ -169,9 +169,6 @@ class Authenticator:
 
 
     def user_sign_in(self, request):
-        print("COOKIES +===============================")
-        print(request.COOKIES)
-        print("COOKIES +===============================")
         try:
             user = self.authe.sign_in_with_email_and_password(
                 request.POST.get('email'), 
@@ -179,16 +176,25 @@ class Authenticator:
             )
             pass
         except:
-            return [request, "login.html", {"message": "Invalid Credentials..."}]
-        request.session['idToken'] = str(user['idToken'])
-        request.session['uid'] = str(user['localId'])
-        print(request.session['idToken'])
-        print(request.session['uid'])
-        #return [request, "index.html", {"request_keys": [_ for _ in request.session.items()]}]
-        return JsonResponse({
-            'idToken':request.session['idToken'],
-            'uid':request.session['uid']
+            return JsonResponse({"message": "Invalid Credentials..."})
+        server_response = JsonResponse({
+            'idToken': str(user['idToken']),
+            'uid': str(user['localId'])
         })
+
+        server_response.set_cookie(
+                key='idToken', 
+                value=str(user['idToken']),
+                httponly=True,
+                samesite='Lax'
+            )
+        server_response.set_cookie(
+                key='uid', 
+                value=str(user['localId']),
+                httponly=True,
+                samesite='Lax'
+            )
+        return server_response
 
     def user_sign_up(self, request):
         try:

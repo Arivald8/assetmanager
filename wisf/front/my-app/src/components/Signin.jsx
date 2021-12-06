@@ -40,6 +40,9 @@ export default function Signin(props){
         );
 
         fetch(request).then(function(response){
+            console.log("Cookie")
+            console.log(response.cookies)
+            console.log("Cookie")
             return response.text();
         }).then(function(data){
             console.log("HERE")
