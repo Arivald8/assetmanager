@@ -1,6 +1,11 @@
 import "./Signin.css";
+import { useSelector, useDispatch } from 'react-redux';
+import { display_user, remove_display_user } from '../features/user/userSlice';
 
 export default function Signin(props){
+    const my_user = useSelector((state) => state.user.value)
+    const dispatch = useDispatch()
+
     function getCookie(name){
         let cookieValue = null;
         if (document.cookie && document.cookie !== ''){
@@ -25,6 +30,7 @@ export default function Signin(props){
         formData.append('email', e.target.email.value)
         formData.append('pass', e.target.password.value)
         sendSubmit(formData)
+        dispatch(display_user(e.target.email.value))
     }
 
     let sendSubmit = (cred) => {

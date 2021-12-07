@@ -1,15 +1,19 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { display_user, remove_display_user } from '../features/user/userSlice';
 import { Outlet, Link } from "react-router-dom";
 import Logo from "../images/slack.png";
 import "./Topnav.css";
 
 export default function Topnav(){
-    const user = useSelector((state) => state.user_display.value)
-    const dispatch = useDispatch()
+    let logged_in = false
+    console.log(logged_in)
+    const users = useSelector((state) => state.user.value)
+    console.log("yese")
+    console.log(users.payload)
+    if(users.payload == null){}else{logged_in = true}
 
     console.log("TOPNAV")
-    console.log(user)
+    console.log(users.payload)
+    console.log(logged_in)
     console.log("TOPNAV")
 
     return(
@@ -22,8 +26,7 @@ export default function Topnav(){
                 </div>
                 <div className="right-nav">
                     <Link className="nav-link" to="/">Home</Link>
-                    <Link className="nav-link" to="/signin">Sign In</Link>
-                    <Link className="user-link" to="/">{user}</Link>
+                    <Link className="nav-link" to={logged_in ? "/account" : "/signin"}>{logged_in ? users.payload : "Sign In"}</Link>
                 </div>
             </nav>
             <Outlet />
