@@ -30,9 +30,9 @@ export default function Signout(props){
         );
 
         fetch(logout).then(function(response){
-            console.log("Cookie")
+            console.log("response")
             console.log(response)
-            console.log("Cookie")
+            console.log("response")
             return response.json();
         }).then(function(data){
             console.log("HERE")

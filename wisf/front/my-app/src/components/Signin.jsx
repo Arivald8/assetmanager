@@ -1,10 +1,12 @@
 import "./Signin.css";
 import { useSelector, useDispatch } from 'react-redux';
 import { display_user } from '../features/user/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 export default function Signin(props){
     const my_user = useSelector((state) => state.user.value)
     const dispatch = useDispatch()
+    const navigate = useNavigate();
 
     function getCookie(name){
         let cookieValue = null;
@@ -29,11 +31,10 @@ export default function Signin(props){
         let formData = new FormData();
         formData.append('email', e.target.email.value)
         formData.append('pass', e.target.password.value)
-        sendSubmit(formData)
-        dispatch(display_user(e.target.email.value))
+        sendSubmit(formData, e)
     }
 
-    let sendSubmit = (cred) => {
+    let sendSubmit = (cred, e) => {
         const request = new Request(
             'http://127.0.0.1:8000/postsignin/',
             {
@@ -46,14 +47,15 @@ export default function Signin(props){
         );
 
         fetch(request).then(function(response){
-            console.log("Cookie")
-            console.log(response.cookies)
-            console.log("Cookie")
-            return response.text();
+            return response.json();
         }).then(function(data){
-            console.log("HERE")
-            console.log(data);
-            console.log("HEREEE")
+            if (data["Error"] === "Invalid Credentials..."){
+                console.log(data)
+            } else{
+                dispatch(display_user(e.target.email.value))
+                navigate('/');
+
+            }
         });
 
     }

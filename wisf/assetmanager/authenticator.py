@@ -175,8 +175,8 @@ class Authenticator:
                 request.POST.get('pass')
             )
             pass
-        except:
-            return JsonResponse({"message": "Invalid Credentials..."})
+        except Exception as e:
+            return JsonResponse({"Error": "Invalid Credentials..."})
         server_response = JsonResponse({
             'idToken': str(user['idToken']),
             'uid': str(user['localId'])
