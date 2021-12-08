@@ -16,7 +16,7 @@ def post_sign_in(request):
 
 def logout(request):
     validation = Authenticator().user_logout(request)
-    return render(validation[0], validation[1])
+    return render(validation)
 
 def sign_up(request):
     return render(request, "registration.html")

@@ -1,18 +1,45 @@
 
 export default function Signout(props){
-    function getCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for(var i=0;i < ca.length;i++) {
-            var c = ca[i];
-            while (c.charAt(0)==' ') c = c.substring(1,c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    function getCookie(name){
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== ''){
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++){
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')){
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
         }
-        return null;
+        return cookieValue;
     }
-    
-    function eraseCookie(name) {   
-        document.cookie = name+'=; Max-Age=-99999999;';  
+
+    const csrftoken = getCookie('csrftoken');
+
+    let logout = () => {
+        const request = new Request(
+            'http://127.0.0.1:8000/logout/',
+            {
+                headers: {'X-CSRFToken': csrftoken},
+                method: 'POST',
+                mode: 'cors',
+                credentials: 'include',
+            }
+        );
+
+        fetch(logout).then(function(response){
+            console.log("Cookie")
+            console.log(response)
+            console.log("Cookie")
+            return response.json();
+        }).then(function(data){
+            console.log("HERE")
+            console.log(data);
+            console.log("HEREEE")
+        });
     }
-    console.log(document.cookie)
+
+    return null;
 }

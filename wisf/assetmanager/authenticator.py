@@ -217,7 +217,7 @@ class Authenticator:
     def user_logout(self, request):
         try:
             request.delete_cookie('idToken')
-            request.delete_cookied('uid')
+            request.delete_cookie('uid')
             server_response = JsonResponse({
                 'Success': 'You have been successfully signed out.'
             })
