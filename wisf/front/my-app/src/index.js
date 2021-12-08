@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import Signin from './components/Signin';
+import Signout from './components/Singout';
 
 import store from './app/store'
 import { Provider } from 'react-redux';
@@ -21,7 +22,7 @@ ReactDOM.render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route path="/signin" element={<Signin />} />
-            <Route path="/signout" element={null} />
+            <Route path="/signout" element={<Signout />} />
           </Route>
         </Routes>
       </BrowserRouter>

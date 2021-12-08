@@ -1,6 +1,6 @@
 import "./Signin.css";
 import { useSelector, useDispatch } from 'react-redux';
-import { display_user, remove_display_user } from '../features/user/userSlice';
+import { display_user } from '../features/user/userSlice';
 
 export default function Signin(props){
     const my_user = useSelector((state) => state.user.value)

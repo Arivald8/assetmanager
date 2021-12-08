@@ -216,11 +216,16 @@ class Authenticator:
 
     def user_logout(self, request):
         try:
-            del request.session['idToken']
-            del request.session['uid']
+            request.delete_cookie('idToken')
+            request.delete_cookied('uid')
+            server_response = JsonResponse({
+                'Success': 'You have been successfully signed out.'
+            })
         except:
-            print("Error occured when logging out.")
-        return [request, "index.html"]
+            server_response = JsonResponse({
+                'Error': 'We were unable to sign you out. Please try again.'
+            })
+        return server_response
 
     
     def return_user_claims(self, user_email):
