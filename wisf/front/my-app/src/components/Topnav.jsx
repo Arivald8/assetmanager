@@ -26,7 +26,9 @@ export default function Topnav(){
                 </div>
                 <div className="right-nav">
                     <Link className="nav-link" to="/">Home</Link>
-                    <Link className="nav-link" to={logged_in ? "/account" : "/signin"}>{logged_in ? users.payload : "Sign In"}</Link>
+                    {logged_in ? <Link className="nav-link" to="/signout">Sign Out</Link> : null}
+                    {logged_in ? <Link className="nav-link-email" to="/account">{users.payload}</Link> : null}
+                    {logged_in ? null : <Link className="nav-link" to="/signin">Sign In</Link>}
                 </div>
             </nav>
             <Outlet />
