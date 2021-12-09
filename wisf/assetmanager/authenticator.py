@@ -179,7 +179,8 @@ class Authenticator:
             return JsonResponse({"Error": "Invalid Credentials..."})
         server_response = JsonResponse({
             'idToken': str(user['idToken']),
-            'uid': str(user['localId'])
+            'uid': str(user['localId']),
+            'user': request.POST.get('email')
         })
 
         server_response.set_cookie(
@@ -191,7 +192,7 @@ class Authenticator:
         server_response.set_cookie(
                 key='uid', 
                 value=str(user['localId']),
-                httponly=True,
+                httponly=False,
                 samesite='Lax'
             )
         return server_response
@@ -216,16 +217,13 @@ class Authenticator:
 
     def user_logout(self, request):
         try:
+            print("debug here")
             request.delete_cookie('idToken')
             request.delete_cookie('uid')
-            server_response = JsonResponse({
-                'Success': 'You have been successfully signed out.'
-            })
+            return request
         except:
-            server_response = JsonResponse({
-                'Error': 'We were unable to sign you out. Please try again.'
-            })
-        return server_response
+            print("debug not work")
+            return request
 
     
     def return_user_claims(self, user_email):

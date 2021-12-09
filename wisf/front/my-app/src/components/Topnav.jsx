@@ -4,7 +4,6 @@ import Logo from "../images/slack.png";
 import "./Topnav.css";
 
 export default function Topnav(props){
-    const users = useSelector((state) => state.user.value)
     return(
         <div className="top-nav-div">
             <nav className="nav-nav">
@@ -16,7 +15,7 @@ export default function Topnav(props){
                 <div className="right-nav">
                     <Link className="nav-link" to="/">Home</Link>
                     {props.props ? <Link className="nav-link" to="/signout">Sign Out</Link> : null}
-                    {props.props ? <Link className="nav-link-email" to="/account">{users.payload}</Link> : null}
+                    {props.props ? <Link className="nav-link-email" to="/account">{localStorage['user_email']}</Link> : null}
                     {props.props ? null : <Link className="nav-link" to="/signin">Sign In</Link>}
                 </div>
             </nav>

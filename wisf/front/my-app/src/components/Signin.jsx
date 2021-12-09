@@ -47,14 +47,14 @@ export default function Signin(props){
         );
 
         fetch(request).then(function(response){
-            return response.json();
+            return response.json(); 
         }).then(function(data){
             if (data["Error"] === "Invalid Credentials..."){
                 console.log(data)
             } else{
-                dispatch(display_user(e.target.email.value))
+                localStorage.setItem("user_id", data['uid'])
+                localStorage.setItem("user_email", data['user'])
                 navigate('/');
-
             }
         });
 

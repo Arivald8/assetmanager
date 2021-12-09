@@ -29,17 +29,19 @@ export default function Signout(props){
             }
         );
 
-        fetch(logout).then(function(response){
-            console.log("response")
+        fetch(request).then(function(response){
+            console.log("debug")
             console.log(response)
-            console.log("response")
-            return response.json();
+            console.log("debug")
+            return response;
         }).then(function(data){
-            console.log("HERE")
+            console.log("debug")
             console.log(data);
-            console.log("HEREEE")
+            console.log("debug")
         });
     }
+
+    logout()
 
     return null;
 }
