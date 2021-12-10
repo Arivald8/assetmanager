@@ -1,11 +1,7 @@
 import "./Signin.css";
-import { useSelector, useDispatch } from 'react-redux';
-import { display_user } from '../features/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 
-export default function Signin(props){
-    const my_user = useSelector((state) => state.user.value)
-    const dispatch = useDispatch()
+export default function Signin(){
     const navigate = useNavigate();
 
     function getCookie(name){
@@ -55,6 +51,8 @@ export default function Signin(props){
                 localStorage.setItem("user_id", data['uid'])
                 localStorage.setItem("user_email", data['user'])
                 navigate('/');
+                navigate(0)
+
             }
         });
 

@@ -1,5 +1,8 @@
+import { useNavigate } from 'react-router-dom';
 
-export default function Signout(props){
+export default function Signout(){
+    const navigate = useNavigate();
+
     function getCookie(name){
         let cookieValue = null;
         if (document.cookie && document.cookie !== ''){
@@ -30,14 +33,17 @@ export default function Signout(props){
         );
 
         fetch(request).then(function(response){
-            console.log("debug")
-            console.log(response)
-            console.log("debug")
-            return response;
+            return response.json()
         }).then(function(data){
-            console.log("debug")
-            console.log(data);
-            console.log("debug")
+            if (data['Success']){
+                localStorage.removeItem('user_email')
+                localStorage.removeItem('user_id')
+                navigate('/signin')
+                navigate(0)
+            }
+            else{
+                console.log(data)
+            }
         });
     }
 

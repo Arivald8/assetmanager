@@ -218,13 +218,21 @@ class Authenticator:
     def user_logout(self, request):
         try:
             print("debug here")
-            request.delete_cookie('idToken')
-            request.delete_cookie('uid')
-            return request
-        except:
-            print("debug not work")
-            return request
 
+            response = JsonResponse({
+                "Success": "You have been successfully signed out."
+            })
+
+            response.delete_cookie('idToken')
+            response.delete_cookie('uid')
+            return response
+        except Exception as e:
+            print(e)
+            response = JsonResponse({
+                "Error": "We were unable to sign you out at this time. Please try again."
+            })
+            print("debug not work")
+            return response
     
     def return_user_claims(self, user_email):
         return auth.get_user_by_email(user_email).custom_claims
