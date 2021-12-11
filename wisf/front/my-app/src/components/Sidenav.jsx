@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Sidenav.css"; 
 
 export default function Sidenav(props){
