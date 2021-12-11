@@ -1,4 +1,3 @@
-import SignoutSuccess from './SignoutSuccess';
 import { useNavigate } from 'react-router-dom';
 
 export default function Signout(){

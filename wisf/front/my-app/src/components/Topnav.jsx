@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux';
 import { Outlet, Link } from "react-router-dom";
 import Logo from "../images/slack.png";
 import "./Topnav.css";

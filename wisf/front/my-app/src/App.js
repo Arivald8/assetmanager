@@ -1,4 +1,5 @@
 import Topnav from "./components/Topnav";
+import Sidenav from "./components/Sidenav";
 
 export default function App(){
     let logged_in = false
@@ -10,6 +11,7 @@ export default function App(){
     return(
         <div className="app_div">
             <Topnav props={logged_in}/>
+            {logged_in ? <Sidenav /> : null}
         </div>
     )
 }
