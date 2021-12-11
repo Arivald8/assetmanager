@@ -2,6 +2,7 @@ import assetmanager.models as models
 from django.core.paginator import Paginator
 from django.core.exceptions import ValidationError
 from django.db import IntegrityError
+from django.http import JsonResponse
 
 class DeviceDBManager:
     def __init__(self):
@@ -9,14 +10,11 @@ class DeviceDBManager:
 
 
     def view_assets(self, request):
-        return [
-            request, 
-            'asset_manager.html', 
-            {
-                'page_obj': Paginator(
-                    models.Asset.objects.all(), 20).get_page(request.GET.get('page'))
-            }
-        ]
+        print(request.COOKIES)
+        return JsonResponse({
+            'page_obj': Paginator(
+                models.Asset.objects.all(), 20).get_page(request.GET.get('page'))
+        })
 
 
     def add_asset(self, request):
