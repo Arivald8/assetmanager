@@ -1,6 +1,6 @@
 import "./Signin.css";
 import { useNavigate } from 'react-router-dom';
-import { csrftoken, makeRequest } from './ApiCaller';
+import { makeRequest } from './ApiCaller';
 
 export default function Signin(){
     const navigate = useNavigate();
