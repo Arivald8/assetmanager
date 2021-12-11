@@ -4,6 +4,7 @@
     height: 5rem;
     justify-content: center;
     align-items: center;
+    border-bottom: 1px solid #1C6EA4;
 }
 
 .nav-nav{
