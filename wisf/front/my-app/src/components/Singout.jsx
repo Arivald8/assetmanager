@@ -1,6 +1,8 @@
 import SignoutSuccess from './SignoutSuccess';
+import { useNavigate } from 'react-router-dom';
 
 export default function Signout(){
+    const navigate = useNavigate();
 
     function getCookie(name){
         let cookieValue = null;
@@ -35,15 +37,19 @@ export default function Signout(){
             return response.json()
         }).then(function(data){
             if (data['Success']){
-                return <SignoutSuccess user_data={data['Success']}/>
+                localStorage.removeItem('user_id')
+                localStorage.removeItem('user_email')
+                navigate('/signin')
+                navigate(0)
+                alert("You have been successfully signed out.")
             }
             else{
-                return <SignoutSuccess user_data={data['Error']} />
+                alert('We were unable to sign you out at this time. Please try again.')
             }
         });
     }
 
     logout()
 
-    return <SignoutSuccess user_data={'Success'}/>
+    return null;
 }
