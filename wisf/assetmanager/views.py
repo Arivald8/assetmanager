@@ -66,9 +66,12 @@ def show_user_claims(request):
 
 
 def asset_manager(request):
+    print("Debug")
+    print(request.COOKIES)
+    print("end debug")
     user_claims = Authenticator().user_permissions_generic_elevated(request)
     if True in user_claims:
-        return render(*DeviceDBManager().view_assets(request))
+        return DeviceDBManager().view_assets(request)
     else:
         return render(request, *[_ for _ in Authenticator().access_denied()])
 

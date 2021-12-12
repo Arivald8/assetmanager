@@ -10,7 +10,7 @@ class DeviceDBManager:
 
 
     def view_assets(self, request):
-        print(request.COOKIES)
+        print("hello from view_assets")
         return JsonResponse({
             'page_obj': Paginator(
                 models.Asset.objects.all(), 20).get_page(request.GET.get('page'))

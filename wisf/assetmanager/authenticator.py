@@ -84,7 +84,7 @@ class Authenticator:
 
     def is_admin(self, request):
         try:
-            claims = auth.verify_id_token(request.session['idToken'])
+            claims = auth.verify_id_token(request.COOKIES['idToken'])
             try:
                 if claims['admin'] is True:
                     return True
@@ -98,7 +98,7 @@ class Authenticator:
 
     def is_school_lead(self, request):
         try:
-            claims = auth.verify_id_token(request.session['idToken'])
+            claims = auth.verify_id_token(request.COOKIES['idToken'])
             try:
                 if claims['school_lead'] is True:
                     return True
@@ -112,7 +112,7 @@ class Authenticator:
 
     def is_technician(self, request):
         try:
-            claims = auth.verify_id_token(request.session['idToken'])
+            claims = auth.verify_id_token(request.COOKIES['idToken'])
             try:
                 if claims['technician'] is True:
                     return True
@@ -126,7 +126,7 @@ class Authenticator:
 
     def is_staff(self, request):
         try:
-            claims = auth.verify_id_token(request.session['idToken'])
+            claims = auth.verify_id_token(request.COOKIES['idToken'])
             try:
                 if claims['staff'] is True:
                     return True
