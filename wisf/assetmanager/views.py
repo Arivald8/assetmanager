@@ -1,11 +1,14 @@
 from django.shortcuts import render
 
 from rest_framework import status
+from rest_framework.generics import GenericAPIView
+from rest_framework import serializers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .models import Asset
 from .serializers import AssetSerializer
+from .pagination import CustomPagination
 
 from firebase_admin import auth
 from decouple import config as cfg
@@ -96,5 +99,29 @@ def asset_manager_add_asset(request):
         return render(request, *[_ for _ in Authenticator().access_denied()])
         
 
-
+class ListAssets(GenericAPIView):
+    class OutputSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Asset
+            fields = [
+                'device_name',
+                'device_type',
+                'device_asset',
+                'device_serial',
+                'device_model',
+                'device_location',
+                'device_ip',
+                'device_mac',
+                'device_school',
+                'device_notes',
+            ]
+    def get(self, request):
+        asset_qs = Asset.objects.all().order_by('-id')
+        page = self.paginate_queryset(asset_qs)
+        if page is not None:
+            serializer = self.OutputSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        # If page is not specified, return all
+        serializer = self.OutputSerializer(asset_qs, many=True)
+        return Response(serializer.data)
         

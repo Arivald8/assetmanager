@@ -3,7 +3,6 @@ from django.urls import path
 from django.conf.urls import url
 from assetmanager import views
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home_page, name="home"),
@@ -17,4 +16,5 @@ urlpatterns = [
     path('addclaims/', views.admin_dashboard_add_claims),
     path('manager/', views.asset_manager),
     path('postasset/', views.asset_manager_add_asset),
+    path('manager/view-assets/', views.ListAssets.as_view()),
 ]
