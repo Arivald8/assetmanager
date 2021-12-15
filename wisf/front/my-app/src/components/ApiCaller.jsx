@@ -14,12 +14,12 @@ function getCookie(name){
     return cookieValue;
 }
 
-function makeRequest(cred, url){
+function makeRequest(cred, url, request_method){
     const request = new Request(
         `http://127.0.0.1:8000/${url}/`,
         {
             headers: {'X-CSRFToken': csrftoken},
-            method: 'POST',
+            method: `${request_method}`,
             mode: 'cors',
             credentials: 'include',
             body: cred

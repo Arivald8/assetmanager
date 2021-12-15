@@ -3,7 +3,7 @@ import { makeRequest } from './ApiCaller';
 
 export default function Signout(){
     const navigate = useNavigate();
-    let request = makeRequest(null, "logout")
+    let request = makeRequest(null, "logout", "POST")
 
     fetch(request).then(function(response){
         return response.json()

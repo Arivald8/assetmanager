@@ -10,7 +10,7 @@ export default function Signin(){
         let formData = new FormData();
         formData.append('email', e.target.email.value)
         formData.append('pass', e.target.password.value)
-        let request = makeRequest(formData, 'postsignin')
+        let request = makeRequest(formData, 'postsignin', 'POST')
     
 
         fetch(request).then(function(response){
