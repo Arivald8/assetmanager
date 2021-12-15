@@ -1,22 +1,33 @@
-import { makeRequest } from './ApiCaller';
+import fetchAssets from './AssetView';
 
 export default function AssetManager(){
-    let request = makeRequest(null, 'manager/view-assets', 'GET')
+    let assets = fetchAssets()
 
-    fetch(request).then(function(response){
-        return response.json();
-    }).then(function(data){
-        console.log("front debug")
-        console.log(data.count)
-        console.log(data.previous)
-        console.log(data.next)
-        console.log(data.results)
-        console.log('front debug end')
-    })
+    console.log("debug assetmanager")
+    console.log(assets)
+    console.log("debug end assetmanager")
 
     return(
         <div className="asset-manager-div">
-            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Device Name</th>
+                        <th>Device Type</th>
+                        <th>Device Asset</th>
+                        <th>Device Serial</th>
+                        <th>Device Model</th>
+                        <th>Device Location</th>
+                        <th>Device IP</th>
+                        <th>Device Mac</th>
+                        <th>Device School</th>
+                        <th>Device Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <td>`${assets}`</td>
+                </tbody>
+            </table>
         </div>
     )
 }
