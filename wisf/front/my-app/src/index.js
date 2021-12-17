@@ -24,7 +24,7 @@ ReactDOM.render(
           <Route path="/" element={<App />}>
             <Route path="/signin" element={<Signin />} />
             <Route path="/signout" element={<Signout />} />
-            <Route path="/asset-manager" element={<AssetManager />} />
+            <Route path="/asset-manager" element={null} />
           </Route>
         </Routes>
       </BrowserRouter>

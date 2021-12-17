@@ -1,5 +1,6 @@
 .top-nav-div{
     display: inline-flex;
+    flex-direction: row;
     width: 100%;
     height: 5rem;
     justify-content: center;
