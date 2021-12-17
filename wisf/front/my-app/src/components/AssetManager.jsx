@@ -1,8 +1,18 @@
 import "./AssetManager.css";
 import fetchAssets from './AssetView';
+import { useState, useEffect, setState } from "react";
 
 export default function AssetManager(){
-    let assets = fetchAssets()
+    const [assetstate, setAssetstate] = useState(0);
+    useEffect(() => {
+        const resp = fetchAssets();
+        resp.then(function(data){
+            setAssetstate(data.results[0]['device_name'])
+        })
+    })
+
+    console.log("ASADASD")
+    console.log(assetstate)
 
     return(
         <div className="asset-manager-div">
@@ -28,6 +38,7 @@ export default function AssetManager(){
                             <th className="table-header">Device Notes</th>
                         </tr>
                     </thead>
+                    <h1>{assetstate}</h1>
                     <tbody className="table-body">
                         <td className="table-data">KHS-T-125</td>
                         <td className="table-data">Laptop</td>
