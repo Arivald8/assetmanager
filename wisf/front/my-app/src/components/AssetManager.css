@@ -43,15 +43,60 @@
 }
 
 .bottom-controls{
+    display: flex;
     box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
-    -webkit-border-top-left-radius: 10px;
-    -webkit-border-top-right-radius: 10px;
-    -moz-border-radius-topleft: 10px;
-    -moz-border-radius-topright: 10px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    border-top: black;
-
     position: static;
-    top: 50%
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    padding-right: 5em;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.search-bar, .search-bar-form{
+    width: 100%;
+}
+
+.search-input{
+    display: flex;
+    margin-top: 1em;
+    width: 100%;
+    color: rgb(0, 0, 0);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    background: rgb(241, 241, 241);
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin-right: 5px;
+
+    box-sizing: border-box;
+    border: 2px solid rgba(0, 0, 0, 0.02);
+    text-align: center;
+}
+
+.search-submit{
+    margin: 1em;
+    cursor: pointer;
+    border-radius: 5em;
+    color: #fff;
+    background: linear-gradient(to right, #53a3d1, #1763aa);
+    border: 0;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 13px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+    width: 5em;
+}
+
+.add-asset-btn{
+    margin: 1em;
+    cursor: pointer;
+    border-radius: 5em;
+    color: #fff;
+    background: linear-gradient(to right, #53a3d1, #1763aa);
+    border: 0;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 17px;
+    box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+    width: 10em;
 }
