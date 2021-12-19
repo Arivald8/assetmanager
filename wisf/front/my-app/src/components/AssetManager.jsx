@@ -5,14 +5,16 @@ import { useState, useEffect, setState } from "react";
 export default function AssetManager(){
     const [assetstate, setAssetstate] = useState(0);
     useEffect(() => {
+        let isMounted = true;
         const resp = fetchAssets();
         resp.then(function(data){
-            setAssetstate(data.results[0]['device_name'])
+            if (isMounted) setAssetstate(data);
         })
-    })
+        return () => {isMounted = false};
+    }, []);
 
     console.log("ASADASD")
-    console.log(assetstate)
+    console.log(assetstate.results)
 
     return(
         <div className="asset-manager-div">
@@ -37,140 +39,24 @@ export default function AssetManager(){
                             <th className="table-header">Device School</th>
                             <th className="table-header">Device Notes</th>
                         </tr>
+                        {assetstate.results.map((element) => {
+                            return (
+                                <tdbody className="table-body">
+                                    <td className="table-data">{element.device_name}</td>
+                                    <td className="table-data">{element.device_type}</td>
+                                    <td className="table-data">{element.device_asset}</td>
+                                    <td className="table-data">{element.device_serial}</td>
+                                    <td className="table-data">{element.device_model}</td>
+                                    <td className="table-data">{element.device_location}</td>
+                                    <td className="table-data">{element.device_ip}</td>
+                                    <td className="table-data">{element.device_mac}</td>
+                                    <td className="table-data">{element.device_school}</td>
+                                    <td className="table-data">{element.device_notes}</td>
+                                </tdbody>
+                            )
+                        })}
                     </thead>
-                    <h1>{assetstate}</h1>
-                    <tbody className="table-body">
-                        <td className="table-data">KHS-T-125</td>
-                        <td className="table-data">Laptop</td>
-                        <td className="table-data">123456</td>
-                        <td className="table-data">abc123</td>
-                        <td className="table-data">g10</td>
-                        <td className="table-data">KHS IT office</td>
-                        <td className="table-data">123.456</td>
-                        <td className="table-data">adbj2a</td>
-                        <td className="table-data">khs</td>
-                        <td className="table-data">very good</td>
-                    </tbody>
-                    <tbody className="table-body">
-                        <td className="table-data">KHS-T-125</td>
-                        <td className="table-data">Laptop</td>
-                        <td className="table-data">123456</td>
-                        <td className="table-data">abc123</td>
-                        <td className="table-data">g10</td>
-                        <td className="table-data">KHS IT office</td>
-                        <td className="table-data">123.456</td>
-                        <td className="table-data">adbj2a</td>
-                        <td className="table-data">khs</td>
-                        <td className="table-data">very good</td>
-                    </tbody>
-                    <tbody className="table-body">
-                        <td className="table-data">KHS-T-125</td>
-                        <td className="table-data">Laptop</td>
-                        <td className="table-data">123456</td>
-                        <td className="table-data">abc123</td>
-                        <td className="table-data">g10</td>
-                        <td className="table-data">KHS IT office</td>
-                        <td className="table-data">123.456</td>
-                        <td className="table-data">adbj2a</td>
-                        <td className="table-data">khs</td>
-                        <td className="table-data">very good</td>
-                    </tbody>
-                    <tbody className="table-body">
-                        <td className="table-data">KHS-T-125</td>
-                        <td className="table-data">Laptop</td>
-                        <td className="table-data">123456</td>
-                        <td className="table-data">abc123</td>
-                        <td className="table-data">g10</td>
-                        <td className="table-data">KHS IT office</td>
-                        <td className="table-data">123.456</td>
-                        <td className="table-data">adbj2a</td>
-                        <td className="table-data">khs</td>
-                        <td className="table-data">very good</td>
-                    </tbody>
-                    <tbody className="table-body">
-                        <td className="table-data">KHS-T-125</td>
-                        <td className="table-data">Laptop</td>
-                        <td className="table-data">123456</td>
-                        <td className="table-data">abc123</td>
-                        <td className="table-data">g10</td>
-                        <td className="table-data">KHS IT office</td>
-                        <td className="table-data">123.456</td>
-                        <td className="table-data">adbj2a</td>
-                        <td className="table-data">khs</td>
-                        <td className="table-data">very good</td>
-                    </tbody>
-                    <tbody className="table-body">
-                        <td className="table-data">KHS-T-125</td>
-                        <td className="table-data">Laptop</td>
-                        <td className="table-data">123456</td>
-                        <td className="table-data">abc123</td>
-                        <td className="table-data">g10</td>
-                        <td className="table-data">KHS IT office</td>
-                        <td className="table-data">123.456</td>
-                        <td className="table-data">adbj2a</td>
-                        <td className="table-data">khs</td>
-                        <td className="table-data">very good</td>
-                    </tbody>
-                    <tbody className="table-body">
-                        <td className="table-data">KHS-T-125</td>
-                        <td className="table-data">Laptop</td>
-                        <td className="table-data">123456</td>
-                        <td className="table-data">abc123</td>
-                        <td className="table-data">g10</td>
-                        <td className="table-data">KHS IT office</td>
-                        <td className="table-data">123.456</td>
-                        <td className="table-data">adbj2a</td>
-                        <td className="table-data">khs</td>
-                        <td className="table-data">very good</td>
-                    </tbody>
-                    <tbody className="table-body">
-                        <td className="table-data">KHS-T-125</td>
-                        <td className="table-data">Laptop</td>
-                        <td className="table-data">123456</td>
-                        <td className="table-data">abc123</td>
-                        <td className="table-data">g10</td>
-                        <td className="table-data">KHS IT office</td>
-                        <td className="table-data">123.456</td>
-                        <td className="table-data">adbj2a</td>
-                        <td className="table-data">khs</td>
-                        <td className="table-data">very good</td>
-                    </tbody>
-                    <tbody className="table-body">
-                        <td className="table-data">KHS-T-125</td>
-                        <td className="table-data">Laptop</td>
-                        <td className="table-data">123456</td>
-                        <td className="table-data">abc123</td>
-                        <td className="table-data">g10</td>
-                        <td className="table-data">KHS IT office</td>
-                        <td className="table-data">123.456</td>
-                        <td className="table-data">adbj2a</td>
-                        <td className="table-data">khs</td>
-                        <td className="table-data">very good</td>
-                    </tbody>
-                    <tbody className="table-body">
-                        <td className="table-data">KHS-T-125</td>
-                        <td className="table-data">Laptop</td>
-                        <td className="table-data">123456</td>
-                        <td className="table-data">abc123</td>
-                        <td className="table-data">g10</td>
-                        <td className="table-data">KHS IT office</td>
-                        <td className="table-data">123.456</td>
-                        <td className="table-data">adbj2a</td>
-                        <td className="table-data">khs</td>
-                        <td className="table-data">very good</td>
-                    </tbody>
-                    <tbody className="table-body">
-                        <td className="table-data">KHS-T-125</td>
-                        <td className="table-data">Laptop</td>
-                        <td className="table-data">123456</td>
-                        <td className="table-data">abc123</td>
-                        <td className="table-data">g10</td>
-                        <td className="table-data">KHS IT office</td>
-                        <td className="table-data">123.456</td>
-                        <td className="table-data">adbj2a</td>
-                        <td className="table-data">khs</td>
-                        <td className="table-data">very good</td>
-                    </tbody>     
+
                 </table>
             </div>
 
